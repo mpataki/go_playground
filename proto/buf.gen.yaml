@@ -1,0 +1,13 @@
+version: v2
+clean: true
+plugins:
+  - remote: buf.build/protocolbuffers/go
+    out: gen/go
+  - remote: buf.build/protocolbuffers/java
+    out: gen/java
+  - remote: buf.build/bufbuild/es
+    out: gen/es
+    opt: target=js+dts
+  - remote: buf.build/bufbuild/connect-es
+    out: gen/connect-es
+    opt: target=js+dts

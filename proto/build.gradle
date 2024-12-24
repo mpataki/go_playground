@@ -1,0 +1,59 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+version = project.findProperty('version') ?: '0.0.1' // x-release-please-version
+group 'com.mpataki.playground'
+
+java {
+    sourceCompatibility = '21'
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    grpcVersion = '1.69.0'
+}
+
+dependencies {
+    implementation 'com.google.protobuf:protobuf-java:4.29.2'
+
+    api "io.grpc:grpc-protobuf:$grpcVersion"
+    api "io.grpc:grpc-stub:$grpcVersion"
+    api "io.grpc:grpc-netty:$grpcVersion"
+    api "io.grpc:grpc-core:$grpcVersion"
+    api "io.grpc:grpc-api:$grpcVersion"
+    api "io.grpc:grpc-context:$grpcVersion"
+    api "io.grpc:grpc-protobuf-lite:$grpcVersion"
+
+    compileOnly 'org.apache.tomcat:annotations-api:6.0.53'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir "gen/java/"
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            name = 'GitHubPackages'
+            url = uri('https://maven.pkg.github.com/mpataki/go-playground')
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("gpr.key") ?: System.getenv("GH_PACKAGES_WRITE_TOKEN")
+            }
+        }
+    }
+}
