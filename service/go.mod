@@ -1,8 +1,8 @@
-module github.com/mpataki/grpc-go-template/service
+module github.com/mpataki/go_playground/service
 
 go 1.23.4
 
 require (
-    github.com/mpataki/grpc-go-template/proto v0.0.0
-	google.golang.org/grpc v1.69.4
+	github.com/bufbuild/connect-go v1.10.0
+	github.com/mpataki/go_playground/proto v0.0.0
 )

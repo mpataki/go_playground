@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package mpataki.go_playground.proto.greeting.v1;
+
+option java_multiple_files = true;
+option java_package = "com.mpataki.go_playground.proto.greeting.v1";
+option go_package = "github.com/mpataki/go_playground/proto/gen/go/greeting/v1;greetingv1";
+
+// GreetingService provides greeting functionality
+service GreetingService {
+    // SayHello sends a single greeting
+    rpc SayHello(HelloRequest) returns (HelloResponse) {}
+}
+
+// HelloRequest represents the request for a greeting
+message HelloRequest {
+    string name = 1;
+}
+
+// HelloResponse represents the response containing the greeting
+message HelloResponse {
+    string message = 1;
+    int64 timestamp = 2;
+}

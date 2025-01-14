@@ -1,7 +1,7 @@
 {
-    "name": "@mpataki/playground",
+    "name": "@mpataki/go_playground",
     "version": "0.0.1",
-    "description": "proto definitions for the playground",
+    "description": "proto definitions for the go_playground",
     "type": "module",
     "main": "dist/ts/index.js",
     "scripts": {
