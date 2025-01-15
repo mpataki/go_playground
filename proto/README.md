@@ -6,13 +6,14 @@ Run the code gen:
 ```sh
 buf generate
 ```
+This will generate everything required for the go proto module.
 
-To generate the npm module:
+To generate the npm module, run:
 ```
 npm run build
 ```
 
-Generate the java lib using gradle from the repo root. 
+To generate the java library, run:
 ```
 ./gradlew build
 ```

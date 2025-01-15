@@ -1,0 +1,9 @@
+services:
+  grpc-service:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    environment:
+      - GO_ENV=development
+

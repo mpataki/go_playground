@@ -2,10 +2,13 @@ package servers
 
 import (
     "context"
+    "fmt"
+    "time"
     "github.com/bufbuild/connect-go"
     greetingv1 "github.com/mpataki/go_playground/proto/gen/go/mpataki/go_playground/proto/greeting/v1"
     "github.com/mpataki/go_playground/proto/gen/go/mpataki/go_playground/proto/greeting/v1/greetingv1connect"
 )
+
 type GreetingServer struct {
 	greetingv1connect.UnimplementedGreetingServiceHandler
 }
@@ -16,5 +19,15 @@ func NewGreetingServer() *GreetingServer {
 }
 
 func (s *GreetingServer) SayHello(ctx context.Context, req *connect.Request[greetingv1.HelloRequest]) (*connect.Response[greetingv1.HelloResponse], error) {
-	return connect.NewResponse(&greetingv1.HelloResponse{}), nil
+    name := req.Msg.GetName()
+    if name == "" {
+        name = "World"
+    }
+    
+    response := &greetingv1.HelloResponse{
+        Message: fmt.Sprintf("Hello, %s!", name),
+        Timestamp: time.Now().Unix(),
+    }
+    
+    return connect.NewResponse(response), nil
 }
