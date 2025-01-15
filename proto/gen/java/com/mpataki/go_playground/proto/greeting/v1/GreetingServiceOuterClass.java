@@ -53,10 +53,10 @@ public final class GreetingServiceOuterClass {
       "yHello\0225.mpataki.go_playground.proto.gre" +
       "eting.v1.HelloRequest\0326.mpataki.go_playg" +
       "round.proto.greeting.v1.HelloResponse\"\000B" +
-      "u\n+com.mpataki.go_playground.proto.greet" +
-      "ing.v1P\001ZDgithub.com/mpataki/go_playgrou" +
-      "nd/proto/gen/go/greeting/v1;greetingv1b\006" +
-      "proto3"
+      "\221\001\n+com.mpataki.go_playground.proto.gree" +
+      "ting.v1P\001Z`github.com/mpataki/go_playgro" +
+      "und/proto/gen/go/mpataki/go_playground/p" +
+      "roto/greeting/v1;greetingv1b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

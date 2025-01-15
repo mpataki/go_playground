@@ -8,7 +8,7 @@ import (
 	context "context"
 	errors "errors"
 	connect_go "github.com/bufbuild/connect-go"
-	v1 "github.com/mpataki/go_playground/proto/gen/go/greeting/v1"
+	v1 "github.com/mpataki/go_playground/proto/gen/go/mpataki/go_playground/proto/greeting/v1"
 	http "net/http"
 	strings "strings"
 )
