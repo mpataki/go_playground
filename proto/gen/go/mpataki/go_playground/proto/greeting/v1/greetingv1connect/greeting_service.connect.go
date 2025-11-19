@@ -5,9 +5,9 @@
 package greetingv1connect
 
 import (
+	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	connect_go "github.com/bufbuild/connect-go"
 	v1 "github.com/mpataki/go_playground/proto/gen/go/mpataki/go_playground/proto/greeting/v1"
 	http "net/http"
 	strings "strings"
@@ -18,7 +18,7 @@ import (
 // generated with a version of connect newer than the one compiled into your binary. You can fix the
 // problem by either regenerating this code with an older version of connect or updating the connect
 // version compiled into your binary.
-const _ = connect_go.IsAtLeastVersion0_1_0
+const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// GreetingServiceName is the fully-qualified name of the GreetingService service.
@@ -42,7 +42,7 @@ const (
 // service.
 type GreetingServiceClient interface {
 	// SayHello sends a single greeting
-	SayHello(context.Context, *connect_go.Request[v1.HelloRequest]) (*connect_go.Response[v1.HelloResponse], error)
+	SayHello(context.Context, *connect.Request[v1.HelloRequest]) (*connect.Response[v1.HelloResponse], error)
 }
 
 // NewGreetingServiceClient constructs a client for the
@@ -53,24 +53,26 @@ type GreetingServiceClient interface {
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewGreetingServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) GreetingServiceClient {
+func NewGreetingServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) GreetingServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
+	greetingServiceMethods := v1.File_mpataki_go_playground_proto_greeting_v1_greeting_service_proto.Services().ByName("GreetingService").Methods()
 	return &greetingServiceClient{
-		sayHello: connect_go.NewClient[v1.HelloRequest, v1.HelloResponse](
+		sayHello: connect.NewClient[v1.HelloRequest, v1.HelloResponse](
 			httpClient,
 			baseURL+GreetingServiceSayHelloProcedure,
-			opts...,
+			connect.WithSchema(greetingServiceMethods.ByName("SayHello")),
+			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
 // greetingServiceClient implements GreetingServiceClient.
 type greetingServiceClient struct {
-	sayHello *connect_go.Client[v1.HelloRequest, v1.HelloResponse]
+	sayHello *connect.Client[v1.HelloRequest, v1.HelloResponse]
 }
 
 // SayHello calls mpataki.go_playground.proto.greeting.v1.GreetingService.SayHello.
-func (c *greetingServiceClient) SayHello(ctx context.Context, req *connect_go.Request[v1.HelloRequest]) (*connect_go.Response[v1.HelloResponse], error) {
+func (c *greetingServiceClient) SayHello(ctx context.Context, req *connect.Request[v1.HelloRequest]) (*connect.Response[v1.HelloResponse], error) {
 	return c.sayHello.CallUnary(ctx, req)
 }
 
@@ -78,7 +80,7 @@ func (c *greetingServiceClient) SayHello(ctx context.Context, req *connect_go.Re
 // mpataki.go_playground.proto.greeting.v1.GreetingService service.
 type GreetingServiceHandler interface {
 	// SayHello sends a single greeting
-	SayHello(context.Context, *connect_go.Request[v1.HelloRequest]) (*connect_go.Response[v1.HelloResponse], error)
+	SayHello(context.Context, *connect.Request[v1.HelloRequest]) (*connect.Response[v1.HelloResponse], error)
 }
 
 // NewGreetingServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -86,11 +88,13 @@ type GreetingServiceHandler interface {
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewGreetingServiceHandler(svc GreetingServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	greetingServiceSayHelloHandler := connect_go.NewUnaryHandler(
+func NewGreetingServiceHandler(svc GreetingServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	greetingServiceMethods := v1.File_mpataki_go_playground_proto_greeting_v1_greeting_service_proto.Services().ByName("GreetingService").Methods()
+	greetingServiceSayHelloHandler := connect.NewUnaryHandler(
 		GreetingServiceSayHelloProcedure,
 		svc.SayHello,
-		opts...,
+		connect.WithSchema(greetingServiceMethods.ByName("SayHello")),
+		connect.WithHandlerOptions(opts...),
 	)
 	return "/mpataki.go_playground.proto.greeting.v1.GreetingService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
@@ -105,6 +109,6 @@ func NewGreetingServiceHandler(svc GreetingServiceHandler, opts ...connect_go.Ha
 // UnimplementedGreetingServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedGreetingServiceHandler struct{}
 
-func (UnimplementedGreetingServiceHandler) SayHello(context.Context, *connect_go.Request[v1.HelloRequest]) (*connect_go.Response[v1.HelloResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("mpataki.go_playground.proto.greeting.v1.GreetingService.SayHello is not implemented"))
+func (UnimplementedGreetingServiceHandler) SayHello(context.Context, *connect.Request[v1.HelloRequest]) (*connect.Response[v1.HelloResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("mpataki.go_playground.proto.greeting.v1.GreetingService.SayHello is not implemented"))
 }

@@ -1,3 +1,4 @@
+
 gen/connect-es
 gen/es
 gen/java
@@ -5,3 +6,4 @@ bin
 build
 node_modules
 
+.settings/

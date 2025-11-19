@@ -4,7 +4,7 @@ import (
     "context"
     "fmt"
     "time"
-    "github.com/bufbuild/connect-go"
+    "connectrpc.com/connect"
     greetingv1 "github.com/mpataki/go_playground/proto/gen/go/mpataki/go_playground/proto/greeting/v1"
     "github.com/mpataki/go_playground/proto/gen/go/mpataki/go_playground/proto/greeting/v1/greetingv1connect"
 )
